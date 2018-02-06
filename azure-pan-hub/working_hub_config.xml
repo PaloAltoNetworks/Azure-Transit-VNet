@@ -2,16 +2,8 @@
 <config version="8.0.0" urldb="paloaltonetworks">
   <mgt-config>
     <users>
-      <entry name="admin">
-        <phash>*</phash>
-        <permissions>
-          <role-based>
-            <superuser>yes</superuser>
-          </role-based>
-        </permissions>
-      </entry>
       <entry name="pandemo">
-        <phash>$1$vrttfshx$F.Nyt4CliCRpnw8DL3Xwb0</phash>
+        <phash>$1$rklnjivl$4tPB7pD8X8Tmak9xBWW8M0</phash>
         <permissions>
           <role-based>
             <superuser>yes</superuser>
@@ -98,7 +90,6 @@
                   <enable>no</enable>
                 </lldp>
                 <dhcp-client/>
-                <interface-management-profile>ILBHealthCheck</interface-management-profile>
               </layer3>
             </entry>
             <entry name="ethernet1/2">
@@ -302,17 +293,17 @@
               <ip>
                 <static-route>
                   <entry name="defaultRoute">
+                    <path-monitor>
+                      <enable>no</enable>
+                      <failure-condition>any</failure-condition>
+                      <hold-time>2</hold-time>
+                    </path-monitor>
                     <nexthop>
                       <ip-address>10.0.1.1</ip-address>
                     </nexthop>
                     <bfd>
                       <profile>None</profile>
                     </bfd>
-                    <path-monitor>
-                      <enable>no</enable>
-                      <failure-condition>any</failure-condition>
-                      <hold-time>2</hold-time>
-                    </path-monitor>
                     <interface>ethernet1/1</interface>
                     <metric>10</metric>
                     <destination>0.0.0.0/0</destination>
@@ -321,17 +312,17 @@
                     </route-table>
                   </entry>
                   <entry name="SpokeRoute">
-                    <path-monitor>
-                      <enable>no</enable>
-                      <failure-condition>any</failure-condition>
-                      <hold-time>2</hold-time>
-                    </path-monitor>
                     <nexthop>
                       <ip-address>10.0.2.1</ip-address>
                     </nexthop>
                     <bfd>
                       <profile>None</profile>
                     </bfd>
+                    <path-monitor>
+                      <enable>no</enable>
+                      <failure-condition>any</failure-condition>
+                      <hold-time>2</hold-time>
+                    </path-monitor>
                     <interface>ethernet1/2</interface>
                     <metric>10</metric>
                     <destination>192.168.0.0/16</destination>
@@ -421,7 +412,7 @@
               <default-gateway>10.0.0.1</default-gateway>
               <dns-primary>168.63.129.16</dns-primary>
               <username>pandemo</username>
-              <hostname>outoutbound-vm-series0</hostname>
+              <hostname>outbound-vm-series0</hostname>
             </initcfg>
           </management>
         </setting>
