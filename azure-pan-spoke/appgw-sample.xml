@@ -1,22 +1,14 @@
 <?xml version="1.0"?>
-<config version="7.1.0" urldb="paloaltonetworks">
+<config version="8.0.0" urldb="paloaltonetworks">
   <mgt-config>
     <users>
-      <entry name="admin">
-        <phash>*</phash>
-        <permissions>
-          <role-based>
-            <superuser>yes</superuser>
-          </role-based>
-        </permissions>
-      </entry>
       <entry name="pandemo">
         <permissions>
           <role-based>
             <superuser>yes</superuser>
           </role-based>
         </permissions>
-        <phash>$1$ljjdxeva$.isIbumicIMfaHvG/EKqd.</phash>
+        <phash>$1$isxkdmyl$i/3cAv8nNx.mXW4MW.2o5/</phash>
       </entry>
     </users>
   </mgt-config>
@@ -345,6 +337,7 @@
               <accept-dhcp-domain>no</accept-dhcp-domain>
             </dhcp-client>
           </type>
+          <hostname>Spoke-VM-Series0</hostname>
         </system>
         <setting>
           <config>
