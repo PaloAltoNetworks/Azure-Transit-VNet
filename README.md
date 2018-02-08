@@ -10,6 +10,8 @@ This topology consists of
 - 1 Standard Outbound Loadbalancer
 - 1 UDR sending all default route traffic to the Standard Loadbalancer
 
+![alt_text](documentation/images/Hub-Topology.PNG "topology")
+
 # Spoke vNet
 The Spoke vNet can be deployed to host public facing workloads as well as non public facing workloads. More than one spoke can be deployed by launching the spoke template multiple times. Please note that all return traffic from inbound web access requests to public facing spoke resources will return through the same path it was received. Only traffic originating from the hub and spoke networks will exit the hub vNet. 
 
