@@ -22,10 +22,8 @@ This topology consists of
 - 2 Linux Web servers
 - 1 UDR sending all default route traffic to the Hub vnet Standard Loadbalancer.
 
+![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
-
-
-![alt_text](documentation/images/TransitvNetFlow-2.PNG "topology")
 
 # Deployment guide
 The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNET/blob/master/documentation/Azure_Transit_vNet_Deployment_Guide.pdf)
