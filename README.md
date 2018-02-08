@@ -1,5 +1,7 @@
 # Azure Transit vNet
 
+This solution deploys both a Hub vNet and Spoke vNet within the Microsoft Azure cloud framework. Both virtual networks are secured by Palo Alto Networks VM-Series firewalls and Azure Network Security Groups for management access. The Hub vNet is deployed exclusively to handle outbound traffic which originates from within the Hub or spoke Virtual Networks environments. This outbound work flow not only separates traffic that originates from outside of the hub and spoke environments but also ensures that only whitelisted external requests are allowed by leveraging Palo Alto Networks Next Generation Firewall capabilities. By providing a single exit point for traffic originating within the hub and spoke network you can ensure that all outbound traffic meet the security standards required by InfoSec. 
+
 ![alt_text](documentation/images/TransitvNetFlow-2.PNG "topology")
 
 # Deployment guide
