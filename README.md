@@ -9,7 +9,6 @@ The Hub VNet is deployed exclusively to handle outbound traffic that originates 
 This topology consists of
 - 2 VM-Series Firewalls
 - 1 Standard Outbound Loadbalancer
-- 1 UDR sending all default route traffic to the Standard Loadbalancer
 
 [<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNET%2Fmaster%2Fazure-pan-hub%2FazureDeployInfra.json?token=AZoiWUdo2qPkcTjMXpY8_KOkrP2aBqp_ks5ahJwcwA%3D%3D)
 
