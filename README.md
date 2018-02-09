@@ -1,6 +1,6 @@
 
 
-![alt_text](documentation/images/panw-logo-no-badge-black.png "logo")
+![alt_text](documentation/images/pansmallerlogo.PNG "logo")
 
 # Azure Transit VNet
 
