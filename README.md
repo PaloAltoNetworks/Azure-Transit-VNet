@@ -32,6 +32,13 @@ This topology consists of
 
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
+# Hub and Spoke VNet
+Despite being separate Virtual Networks, Once deployed the Hub VNet and Spoke VNet will function as one Virtual Network for outbound packet flow. 
+
+![alt_text](documentation/images/HubandSpokeTopology.PNG "topology")
+
+
+
 # Deployment guide
 The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNET/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf)
 
