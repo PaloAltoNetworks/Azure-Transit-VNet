@@ -33,7 +33,8 @@ This topology consists of
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
 # Hub and Spoke VNet
-Despite being separate Virtual Networks, Once deployed the Hub VNet and Spoke VNet will function as one Virtual Network for outbound packet flow. 
+- Each VNet deployed individually
+- Once deployed the Hub VNet and Spoke VNet will function as one Virtual Network for outbound packet flow. 
 
 ![alt_text](documentation/images/HubandSpokeTopology.PNG "topology")
 
