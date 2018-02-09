@@ -1,12 +1,12 @@
 # Azure Transit VNet
 
-This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both virtual networks are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides outbound access for all traffic originating within the Azure virtual networks while the Spoke VNet can maintain internal workloads as well as provide inbound access for public facing workloads. The Hub VNet must be deployed first with the Spoke VNets being deployed afterward. For more information on deployment please see the Deployment Guide.
+This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both virtual networks are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides outbound access for all traffic originating within your Azure virtual networks while the Spoke VNet can maintain internal workloads as well as provide inbound access for public facing workloads. The Hub VNet must be deployed first with the Spoke VNets being deployed afterward. For more information on deployment please see the Deployment Guide.
 
 # Deployment guide
 The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNET/blob/master/documentation/Azure_Transit_vNet_Deployment_Guide.pdf)
 
 # Hub VNet
-The Hub VNet is deployed exclusively to handle outbound traffic which originates from within the Hub or spoke VNet environments. This outbound work flow not only separates traffic that originates from outside of the virtual networks but also ensures that only whitelisted external requests are allowed by leveraging Palo Alto Networks Next Generation Firewall capabilities. By providing a single exit point for traffic originating within virtual networks you can ensure that all outbound traffic is secured to the standards required by your organization.  
+The Hub VNet is deployed exclusively to handle outbound traffic which originates from within the Hub or spoke VNet environments. This outbound work flow not only separates traffic that originates from outside of the virtual networks but also ensures that only whitelisted external requests are allowed by leveraging Palo Alto Networks Next Generation Firewall capabilities. By providing a single exit point for traffic originating within your virtual networks you can ensure that all outbound traffic is secured to the standards required by your organization.  
 
 This topology consists of
 - 2 VM-Series Firewalls
