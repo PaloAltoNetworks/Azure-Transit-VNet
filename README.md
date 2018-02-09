@@ -18,7 +18,7 @@ This topology consists of
 ![alt_text](documentation/images/Hub-Topology.PNG "topology")
 
 # Spoke VNet
-The Spoke VNet can be deployed to host public facing workloads as well as non public facing workloads. More than one spoke can be deployed by launching the spoke template multiple times. Please note that all return traffic from inbound web access requests to public facing spoke resources will return through the same path it was received. Only traffic originating from the hub and spoke networks will exit the hub VNet. 
+The Spoke VNet can be deployed to host public facing workloads as well as non public facing workloads. More than one spoke can be deployed by launching the spoke template multiple times. Please note that all return traffic from inbound web access requests will return through the same path it was received. Only traffic originating from the Hub and Spoke networks will exit the hub VNet. 
 
 This topology consists of
 - 1 Application Gateway listening on port 80. The App Gateway also functions as a public facing external load balancer
