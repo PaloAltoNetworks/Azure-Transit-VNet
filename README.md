@@ -2,8 +2,6 @@
 
 This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both Hub and Spoke virtual networks are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides secured centralized outbound access for all traffic originating within your Azure virtual networks. The Spoke VNet can provide secured inbound access for public facing workloads for each Spoke VNet individually. The Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. For more information on deployment please see the Deployment Guide.
 
-# Deployment guide
-The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNET/blob/master/documentation/Azure_Transit_vNet_Deployment_Guide.pdf)
 
 # Hub VNet
 The Hub VNet is deployed exclusively to handle outbound traffic that originates from within the Hub or Spoke Virtual Networks. This outbound work flow not only segments traffic that originates from outside of the VNet, but it also ensures that only whitelisted external requests are allowed by leveraging Palo Alto Networks Next Generation Firewall technology. By providing a single exit point for traffic originating within your virtual networks you can ensure that all outbound traffic is secured to the standards required by your organization.  
@@ -31,6 +29,8 @@ This topology consists of
 
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
+# Deployment guide
+The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNET/blob/master/documentation/Azure_Transit_vNet_Deployment_Guide.pdf)
 
 # Support Policy
 The code and templates in the repo are released under an as-is, best effort, support policy. These scripts should be seen as community supported and Palo Alto Networks will contribute our expertise as and when possible. We do not provide technical support or help in using or troubleshooting the components of the project through our normal support options such as Palo Alto Networks support teams, or ASC (Authorized Support Centers) partners and backline support options. The underlying product used (the VM-Series firewall) by the scripts or templates are still supported, but the support is only for the product functionality and not for help in deploying or using the template or script itself. Unless explicitly tagged, all projects or work posted in our GitHub repository (at https://github.com/PaloAltoNetworks) or sites other than our official Downloads page on https://support.paloaltonetworks.com are provided under the best effort policy.
