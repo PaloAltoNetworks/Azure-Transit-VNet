@@ -14,8 +14,7 @@ This topology consists of
 - 2 VM-Series Firewalls
 - 1 Standard Outbound Loadbalancer
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpeezus%2FAzure-Transit-VNet%2Fmaster%2Fazure-pan-hub%2FazureDeployInfra.json)
-
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNET%2Fmaster%2Fazure-pan-hub%2FazureDeployInfra.json?token=AZoiWUdo2qPkcTjMXpY8_KOkrP2aBqp_ks5ahJwcwA%3D%3D)
 
 ![alt_text](documentation/images/Hub-Topology.PNG "topology")
 
@@ -29,7 +28,7 @@ This topology consists of
 - 2 Linux Web servers
 - 1 UDR sending all default route traffic to the Hub vnet Standard Loadbalancer.
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpeezus%2FAzure-Transit-VNet%2Fmaster%2Fazure-pan-spoke%2Fazuredeploy.json)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNET%2Fmaster%2Fazure-pan-spoke%2Fazuredeploy.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
