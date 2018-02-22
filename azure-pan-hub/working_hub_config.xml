@@ -3,7 +3,7 @@
   <mgt-config>
     <users>
       <entry name="pandemo">
-        <phash>$1$rklnjivl$4tPB7pD8X8Tmak9xBWW8M0</phash>
+        <phash>$1$yofajdhv$5Q9dZfRotRdX/QRm4evfG.</phash>
         <permissions>
           <role-based>
             <superuser>yes</superuser>

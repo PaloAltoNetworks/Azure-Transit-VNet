@@ -40,7 +40,7 @@
 			"metadata": {
 				"description": "Your source public IP address. Added to the inbound NSG on eth0 (MGMT), to restrict access to the deployment."
 			},
-			"defaultValue": "0.0.0.0/0"
+			"defaultValue": "1.1.1.1/32"
 		},
 		"avSetName": {
 			"type": "string",
@@ -144,7 +144,7 @@
 		},
 		"firewallModel": {
 			"type": "string",
-			"defaultValue": "byol",
+			"defaultValue": "bundle1",
 			"allowedValues": [
 				"byol",
 				"bundle1",
@@ -212,7 +212,7 @@
 	},
 	
 	"variables": {
-		"baseUrl"              : "http://raw.githubusercontent.com/rranjeet/azure-pan-hub/master",
+		"baseUrl"              : "http://raw.githubusercontent.com/jpeezus/Azure-Transit-VNet/master/azure-pan-hub",
 		"deployStorageURL"     : "[concat(variables('baseUrl'),'/deployStorage.json')]",
 		"deployNsgURL"         : "[concat(variables('baseUrl'),'/deployNsg.json')]",
 		"deployVnetURL"        : "[concat(variables('baseUrl'),'/deployVnet.json')]",
