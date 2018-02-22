@@ -249,7 +249,7 @@
 		"rgname" : "[resourceGroup().name]",
 		"LoadBalancerType" : "layer-7",
 		"firewallVmCount" : 2,
-		"baseUrl" : "http://raw.githubusercontent.com/jpeezus/Azure-Transit-VNet/master/azure-pan-spoke",
+		"baseUrl" : "http://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/azure-pan-spoke",
 		"nsgURL" : "[concat(variables('baseUrl'),'/nsg-new.json')]",
 		"vnetURL" : "[concat(variables('baseUrl'),'/deployVnet.json')]",
 		"publicLBURL" : "[concat(variables('baseUrl'),'/public-lb-', variables('LoadBalancerType'), '.json')]",
