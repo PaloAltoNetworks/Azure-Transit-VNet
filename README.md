@@ -34,7 +34,7 @@ This topology consists of
 
 
 # Deployment guide
-The deployment guide can be found [here](https://github.com/jpeezus/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf)
+The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf)
 
 
 # Support Policy
