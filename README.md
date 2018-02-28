@@ -4,7 +4,7 @@
 
 # Azure Transit VNet
 
-This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both Hub and Spoke VNets are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides secured centralized outbound access for all traffic originating within your Azure VNet. The Spoke VNet can provide secured inbound access for public facing workloads for each Spoke VNet individually. The Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the spoke is deployed the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the Deployment Guide.
+This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both Hub and Spoke VNets are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides secured centralized outbound access for all traffic originating within your Azure VNet. The Spoke VNet can provide secured inbound access for public facing workloads for each Spoke VNet individually. The Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the spoke is deployed the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf).
 
 
 # Hub VNet
