@@ -4,11 +4,11 @@
 
 # Azure Transit VNet
 
-This solution deploys both a Hub and Spoke VNet within the Microsoft Azure cloud framework. Both Hub and Spoke VNets are secured by Palo Alto Networks VM-Series firewalls. The Hub VNet provides secured centralized outbound access for all traffic originating within your Azure VNet. The Spoke VNet can provide secured inbound access for public facing workloads for each Spoke VNet individually. The Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the spoke is deployed the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf).
+The Azure Transit VNet with the VM-Series deploys a hub and spoke architecture to centralize commonly used services such as security and secure connectivity. All traffic to and from the Spokes will “transit” the Hub VNet and will be protected by the VM-Series next generation firewall. To get started, the Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the Spoke is deployed, the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf).
 
 
 # Hub VNet
-The Hub VNet is deployed exclusively to handle outbound traffic that originates from within the Hub or Spoke VNet. This outbound work flow not only segments traffic that originates from outside of the VNet, but it also ensures that only whitelisted external requests are allowed by leveraging Palo Alto Networks Next Generation Firewall technology. By providing a single exit point for traffic originating within your VNets you can ensure that all outbound traffic is secured to the standards required by your organization.  
+The Hub VNet is deployed exclusively to handle outbound traffic that originates from within the Hub or Spoke VNet. This outbound work flow not only segments traffic that originates from outside of the VNet, but it also ensures that only whitelisted external requests are allowed by leveraging VM-Series security policies. By providing a single exit point for traffic originating within your VNets you can ensure that all outbound traffic is secured to the standards required by your organization. 
 
 This topology consists of
 - 2 VM-Series Firewalls
@@ -19,7 +19,7 @@ This topology consists of
 ![alt_text](documentation/images/Hub-Topology.PNG "topology")
 
 # Spoke VNet
-The Spoke VNet can be deployed to host public facing workloads as well as non public facing workloads. More than one spoke can be deployed by launching the spoke template multiple times. Please note that all return traffic from inbound web access requests will return through the same path it was received. Only traffic originating from the Hub and Spoke networks will exit the hub VNet exclusively. 
+Using the Spoke VNet template, you can deploy as many Spokes as needed to host internal only, or public facing workloads. Return traffic from inbound web access requests will traverse the same path it was received, and traffic originating from the Hub and Spoke networks will exit the hub VNet exclusively.
 
 This topology consists of
 - 1 Application Gateway listening on port 80. The App Gateway also functions as a public facing external load balancer
