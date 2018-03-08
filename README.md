@@ -8,7 +8,6 @@ The Azure Transit VNet with the VM-Series deploys a hub and spoke architecture t
 
 Please note that the Azure Standard Load Balancer is still in preview and you will need to sign up with Azure to access this resource before launching the template. For further information on this see the links below.
 [Azure Standard Load Balancer(Preview)](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview)
-[High Availability Ports Overview)](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-ha-ports-overview)
 
 
 # Hub VNet
