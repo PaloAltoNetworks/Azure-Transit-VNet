@@ -6,10 +6,6 @@
 
 The Azure Transit VNet with the VM-Series deploys a hub and spoke architecture to centralize commonly used services such as security and secure connectivity. All traffic to and from the Spokes will “transit” the Hub VNet and will be protected by the VM-Series next generation firewall. To get started, the Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the Spoke is deployed, the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/documentation/Azure_Transit_VNet_Deployment_Guide.pdf).
 
-Please note that the Azure Standard Load Balancer is still in preview and you will need to sign up to have access to this. For information on the Azure Standard Load Balancer please see the following hyperlinks.
-[Azure Standard Load Balancer(Preview)](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-standard-overview)
-[High Availability Ports Overview)](https://docs.microsoft.com/en-us/azure/load-balancer/load-balancer-ha-ports-overview)
-
 
 # Hub VNet
 The Hub VNet is deployed exclusively to handle outbound traffic that originates from within the Hub or Spoke VNet. This outbound work flow not only segments traffic that originates from outside of the VNet, but it also ensures that only whitelisted external requests are allowed by leveraging VM-Series security policies. By providing a single exit point for traffic originating within your VNets you can ensure that all outbound traffic is secured to the standards required by your organization. 
