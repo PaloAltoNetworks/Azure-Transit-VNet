@@ -184,7 +184,7 @@
 			 "metadata": {
 				"description": "Azure VM size for VM-Series"
 			 },
-			 "defaultValue": "Standard_D3_v2"
+			 "defaultValue": "Standard_D3"
 		},
 		"MgmtPublicIPAddressName": {
 			"type": "string",
