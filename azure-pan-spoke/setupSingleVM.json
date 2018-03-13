@@ -133,7 +133,7 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[concat(parameters('vmNamePrefix'), copyIndex())]",
+          "computerName": "[parameters('vmNamePrefix')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -147,7 +147,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/','osdisk', copyindex(), '.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/','osdisk','.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
