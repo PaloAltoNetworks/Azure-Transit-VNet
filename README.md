@@ -26,7 +26,7 @@ Using the Spoke VNet template, you can deploy as many Spokes as needed to host i
 
 This topology consists of
 - 1 Application Gateway listening on port 80. The App Gateway also functions as a public facing external load balancer
-- 2 VM-Series Firewalls [Optional]
+- 2 VM-Series Firewalls
 - 1 Internal Loadbalancer
 - 2 Linux Web servers
 - 1 UDR sending all default route traffic to the Hub vnet Standard Load Balancer.
