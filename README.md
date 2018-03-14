@@ -26,14 +26,18 @@ Using the Spoke VNet template, you can deploy as many Spokes as needed to host i
 
 This topology consists of
 - 1 Application Gateway listening on port 80. The App Gateway also functions as a public facing external load balancer
-- 2 VM-Series Firewalls
+- 2 VM-Series Firewalls [Optional]
 - 1 Internal Loadbalancer
 - 2 Linux Web servers
 - 1 UDR sending all default route traffic to the Hub vnet Standard Load Balancer.
 
+# With VM-Series Firewall
 
 [<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNET%2Fmaster%2Fazure-pan-spoke%2Fazuredeploy.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
+# Without VM-Series Firewall
+
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNET%2Fmaster%2Fazure-pan-spoke%2Fazuredeploy-no-firewall.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
