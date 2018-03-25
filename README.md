@@ -26,7 +26,7 @@ Using the Spoke VNet template, you can deploy as many Spokes as needed to host i
 
 This topology consists of
 - 1 Application Gateway functioning as an external load balancer listening on port 80. 
-- Spoke subnets are 192.168.0.0/21 Spoke1, 192.168.8.0/21 Spoke2 and so on. Must be manually changed after Spoke3
+- Spoke subnets 192.168.0.0/21, 192.168.8.0/21 and so on.
 - 2 VM-Series Firewalls [Optional]
 - 1 Internal Loadbalancer
 - 2 Linux Web servers
