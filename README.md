@@ -25,7 +25,8 @@ This topology consists of
 Using the Spoke VNet template, you can deploy as many Spokes as needed to host internal only, or public facing workloads. Return traffic from inbound web access requests will traverse the same path it was received, and traffic originating from the Hub and Spoke networks will exit the hub VNet exclusively.
 
 This topology consists of
-- 1 Application Gateway listening on port 80. The App Gateway also functions as a public facing external load balancer
+- 1 Application Gateway functioning as an external load balancer listening on port 80. 
+- Spoke subnets are 192.168.0.0/21 Spoke1, 192.168.8.0/21 Spoke2 and so on. Must be manually changed after Spoke3
 - 2 VM-Series Firewalls [Optional]
 - 1 Internal Loadbalancer
 - 2 Linux Web servers
