@@ -199,7 +199,7 @@
 			"type": "securestring",
 			"defaultValue": "Dem0pa$$w0rd",
 			"metadata": {
-				"description": "Password for the administrator account of all VM instances. Must be specified if Authentication Type is 'password'."
+				"description": "Password for the administrator account of all VM instances. This must be specified if Authentication Type is 'password'."
 			}
 		},
 		"sshPublicKey": {
@@ -208,6 +208,45 @@
 			"metadata": {
 				"description": "SSH RSA public key file as a string. Must be specified if Authentication Type is 'sshPublicKey'."
 			}
+		},
+		"bootstrap": {
+			"type": "string",
+			"defaultValue" : "yes",
+			"allowedValues": [
+				"yes",
+				"no"
+			],
+			"metadata": {
+				"description": "Bootstrap disk yes or no"
+			}
+		},
+		"BootstrapStorageAccount": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "Storage account hosting the bootstrap files"
+				}
+		},
+		"StorageAccountAccessKey": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "Authentication key to access the storage account"
+				}
+		},
+		"StorageAccountFileShare": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "The file share in the storage account where the bootstrap files are located"
+				}
+		},
+		"StorageAccountFileShareDirectory": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "The subdirectory hosting the bootstrap files. Only required if hosting multiple bootstrap directories on the same share"
+				}
 		}
 	},
 	
@@ -221,7 +260,8 @@
 
 		"location"   : "[resourceGroup().location]",
 		"rgname"     : "[resourceGroup().name]",
-		"storageName": "[toLower(concat(parameters('storageName')))]"
+		"storageName": "[toLower(concat(parameters('storageName')))]",
+		"customDataField": "[concat('storage-account=', parameters('BootstrapStorageAccount'), ',access-key=', parameters('StorageAccountAccessKey'), ',file-share=', parameters('StorageAccountFileShare'),',share-directory=', parameters('StorageAccountFileShareDirectory'))]"	
 	},
 
 	"resources": [
@@ -425,6 +465,12 @@
 					},
 					"adminPassword": {
 						"value": "[parameters('password')]"
+					},
+                    "customDataField": {
+                        "value": "[variables('customDataField')]"
+                    },
+					"bootstrap": {
+						"value": "[parameters('bootstrap')]"
 					},
 					"sshKey": {
 						"value": "[parameters('sshPublicKey')]"

@@ -84,7 +84,6 @@
 		},
 		"bootstrap": {
 			"type": "string",
-			"defaultValue" : "no",
 			"allowedValues": [
 				"yes",
 				"no"
@@ -193,7 +192,14 @@
 			"metadata": {
 				"description": "Name of public IP resource for mgmt interface"
 			}
-		}
+		},
+		// Bootstrap Parameters from deploy template
+        "customDataField": {
+            "type": "string",
+            "metadata": {
+                "description": "Credentials required by the firewall VM bootstrap code to access the storage"
+            }
+        }
 	},
 
 	"variables": {
@@ -440,6 +446,9 @@
 					"sshKey": {
 						"value": "[parameters('sshKey')]"
 					},
+                    "customDataField": {
+                        "value": "[parameters('customDataField')]"
+                    },
 					"bootstrapUri": {
 						"value": "[parameters('BootstrapUri')]"
 					},
@@ -508,6 +517,9 @@
 					"sshKey": {
 						"value": "[parameters('sshKey')]"
 					},
+                    "customDataField": {
+                        "value": "[parameters('customDataField')]"
+                    },
 					"bootstrapUri": {
 						"value": "[parameters('BootstrapUri')]"
 					},
