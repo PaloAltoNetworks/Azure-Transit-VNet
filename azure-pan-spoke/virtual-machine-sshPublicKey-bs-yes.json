@@ -44,6 +44,9 @@
     "sshKey": {
       "type": "string"
     },
+	"customDataField": {
+		"type": "string"
+	}
   },
   "variables": {
         "apiVersion": "2015-06-15",
@@ -70,6 +73,7 @@
             "osProfile": {
                 "computerName": "[parameters('vmName')]",
                 "adminUsername": "[parameters('adminUsername')]",
+                "customData": "[base64(parameters('customDataField'))]",
                 "linuxConfiguration": {
                         "disablePasswordAuthentication": "true",
                         "ssh": {
@@ -89,18 +93,6 @@
                     "sku": "[parameters('imageSku')]",
                     "version": "latest"
                 },
-                "dataDisks": [
-                {
-                   "name": "datadisk1",
-                   "diskSizeGB": "[parameters('BootstrapUriSizeGB')]",
-                   "lun": 0,
-                   "vhd": {
-                       "uri": "[parameters('BootstrapUri')]"
-                   },
-                   "caching": "ReadOnly",
-                   "createOption": "Attach"
-                 }
-                ],
                 "osDisk": {
                     "name": "osdisk",
                     "vhd": {
