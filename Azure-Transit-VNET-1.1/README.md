@@ -5,11 +5,11 @@
 # Azure Transit VNet with the VM-Series
 
 - Now supports bootstrapping in both Hub and Spoke 
-- Now supports Virtual Machine Scale Sets in the Spoke
-- For more info on the first release of Azure Transit VNet please see the Azure Transit VNet [GitHub Repo](https://github.com/PaloAltoNetworks/Azure-Transit-VNet).
+- Now supports auto scaling with Azure Virtual Machine Scale Sets in the Spoke
 
 
-The Azure Transit VNet with the VM-Series deploys a hub and spoke architecture to centralize commonly used services such as security and secure connectivity. All traffic to and from the Spokes will “transit” the Hub VNet and will be protected by the VM-Series next generation firewall. To get started, the Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the Spoke is deployed, the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/jpeezus/Transit-VNET/blob/master/Azure-Transit-VNET-1.1/documentation/Azure_Transit_VNet0.1_Deployment_Guide.pdf).
+
+The Azure Transit VNet with the VM-Series deploys a hub and spoke architecture to centralize commonly used services such as security and secure connectivity. All traffic to and from the Spokes will “transit” the Hub VNet and will be protected by the VM-Series next generation firewall. To get started, the Hub VNet must be deployed first with the Spoke VNets being deployed subsequently. Once the Spoke is deployed, the VNets are dynamically peered to allow cross VNet communication. For more information on deployment please see the [Deployment Guide](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/Azure-Transit-VNET-1.1/documentation/Azure_Transit_VNet0.1_Deployment_Guide.pdf).
 
 
 # Hub VNet
@@ -61,7 +61,7 @@ This topology consists of
 
 
 # Deployment guide
-The deployment guide can be found [here](https://github.com/jpeezus/Transit-VNET/blob/master/Azure-Transit-VNET-1.1/documentation/Azure_Transit_VNet0.1_Deployment_Guide.pdf)
+The deployment guide can be found [here](https://github.com/PaloAltoNetworks/Azure-Transit-VNet/blob/master/Azure-Transit-VNET-1.1/documentation/Azure_Transit_VNet0.1_Deployment_Guide.pdf)
 
 Bootstrap the VM-Series Firewall on Azure [Bootstrap Instructions](https://www.paloaltonetworks.com/documentation/81/virtualization/virtualization/bootstrap-the-vm-series-firewall/bootstrap-the-vm-series-firewall-in-azure#idd51f75b8-e579-44d6-a809-2fafcfe4b3b6)
 
