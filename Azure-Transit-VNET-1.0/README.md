@@ -35,17 +35,17 @@ This topology consists of
 # With VM-Series Firewall 
 *Spoke 1*
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpeezus%2FTransit-VNET%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNet%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
 *Spoke 2*
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpeezus%2FTransit-VNET%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy2.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNet%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy2.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
 ![alt_text](documentation/images/Spoke-Topology.PNG "topology")
 
 # Without VM-Series Firewall
 
-[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fjpeezus%2FTransit-VNET%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy-no-firewall.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
+[<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNet%2Fmaster%2FAzure-Transit-VNET-1.0%2Fazure-pan-spoke%2Fazuredeploy-no-firewall.json?token=AZoiWXZHIcxPcJG4iqbfyOUvHN1O8coUks5ahgGXwA%3D%3D)
 
 
 
