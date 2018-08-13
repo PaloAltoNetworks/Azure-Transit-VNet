@@ -251,7 +251,7 @@
 	},
 	
 	"variables": {
-		"baseUrl"              : "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/azure-pan-hub",
+		"baseUrl"              : "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/Azure-Transit-VNET-1.0/azure-pan-hub",
 		"deployStorageURL"     : "[concat(variables('baseUrl'),'/deployStorage.json')]",
 		"deployNsgURL"         : "[concat(variables('baseUrl'),'/deployNsg.json')]",
 		"deployVnetURL"        : "[concat(variables('baseUrl'),'/deployVnet.json')]",
