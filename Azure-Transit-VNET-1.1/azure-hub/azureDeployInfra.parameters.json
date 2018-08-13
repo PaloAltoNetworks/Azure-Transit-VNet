@@ -1,0 +1,91 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "hubLoadBalancerSku": {
+            "value": "Standard"
+        },
+        "storageName": {
+            "value": "rrhubstorage1"
+        },
+        "mgmtPublicIPDns": {
+            "value": "rrhubmgmt1"
+        },
+        "networkSecurityGroupInboundIP": {
+            "value": "199.167.52.5/32"
+        },
+        "imageVersion": {
+            "value": "latest"
+        },
+        "storageType": {
+            "value": "Standard_LRS"
+        },
+
+        "virtualNetworkName": {
+            "value": "hubvnet"
+        },
+        "virtualNetworkAddressPrefix": {
+            "value": "10.0.0.0/16"
+        },
+        "mgmtSubnetName": {
+            "value": "hubMgmt"
+        },
+        "mgmtSubnetPrefix": {
+            "value": "10.0.0.0/24"
+        },
+        "untrustedSubnetName": {
+            "value": "Untrust"
+        },
+        "untrustedSubnetPrefix": {
+            "value": "10.0.1.0/24"
+        },
+        "trustedSubnetName": {
+            "value": "Trust"
+        },
+        "trustedSubnetPrefix": {
+            "value": "10.0.2.0/24"
+        },
+        "mgmtPublicIPName": {
+            "value": "mgmt-pip"
+        },
+        
+        "loadBalancerName": {
+            "value": "outbound-lb"
+        },
+        "loadBalancerIP": {
+            "value": "10.0.2.4"
+        },
+        "firewallModel": {
+            "value": "byol"
+        },
+        "firewallVmSize": {
+            "value": "Standard_D3_v2"
+        },
+        "authenticationType": {
+            "value": "password"
+        },
+        "username": {
+            "value": "pandemo"
+        },
+        "password": {
+            "value": "Dem0pa$$w0rd"
+        },
+        "sshPublicKey": {
+            "value": ""
+        },
+        "subscriptionId": {
+        },
+        "appID": {
+        },
+        "appSecret": {
+        },
+        "TenantId":{
+        },
+        "panoramaIP": {
+        },
+        "panoramaApiKey": {
+        },
+        "licenseDeactivationKey": {
+        }
+    }
+}

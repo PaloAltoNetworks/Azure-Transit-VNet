@@ -1,0 +1,81 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+        "hubResourceGroupName": {
+            "value": "rr-hub-1"
+        },
+        "hubVnetName": {
+            "value": "rr-hub1-vnet"
+        },
+        "hubLoadBalancerIP": {
+            "value": "10.0.2.4"
+        },
+        "networkSecurityGroupInboundSrcIP": {
+             "value": "199.167.54.229/32"
+        },
+        "virtualNetworkName": {
+            "value": "rr-spoke3-vnet"
+        },
+        "virtualNetworkAddressPrefix": {
+            "value": "192.168.8.0/21"
+        },
+        "mgmtSubnetPrefix": {
+            "value": "192.168.8.0/24"
+        },
+        "untrustedSubnetPrefix": {
+            "value": "192.168.9.0/24"
+        },
+        "trustedSubnetPrefix": {
+            "value": "192.168.10.0/24"
+        },
+        "appGatewayDnsName": {
+            "value": "rrspoke3appgw"
+        },
+        "appGatewaySubnetPrefix": {
+            "value": "192.168.11.0/24"
+        },
+        "backendSubnetPrefix": {
+            "value": "192.168.12.0/24"
+        },
+        "backendVmSize": {
+             "value": "Standard_D1_v2"
+        },
+        "firewallModel": {
+             "value": "byol"
+        },
+        "firewallVmSize": {
+             "value": "Standard_D3_v2"
+        },
+        "storageAccountName": {
+            "value": "rrspoke3storage"
+        },
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "username": {
+            "value": "pandemo"
+        },
+        "authenticationType": {
+            "value": "password"
+        },
+        "password": {
+            "value": "Dem0pa$$w0rd"
+        },
+        "sshPublicKey": {
+            "value": ""
+        },
+        "bootstrapStorageAccount": {
+            "value": "rrbootstrapstroage"
+        },
+        "bootstrapStorageAccountAccessKey": {
+            "value": "g48c91swtfOhJPu/+kg815SiF4xUP2SwRcvfC0RN7xxfBQVmsahPnxIIZWBzMQ8gfRYAU9baIDKYe9qSqDtBGQ=="
+        },
+        "bootstrapFileShare": {
+            "value": "rr-spoke-3"
+        },
+        "bootstrapSharedDir": {
+            "value": ""
+        }
+  }
+}

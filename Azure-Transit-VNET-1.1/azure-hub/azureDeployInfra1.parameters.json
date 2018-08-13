@@ -1,0 +1,98 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "hubLoadBalancerSku": {
+            "value": "Standard"
+        },
+        "storageName": {
+            "value": "rrhubstorage2"
+        },
+        "mgmtPublicIPDns": {
+            "value": "rrhubmgmt1"
+        },
+        "networkSecurityGroupInboundIP": {
+            "value": "199.167.54.229/32"
+        },
+        "imageVersion": {
+            "value": "latest"
+        },
+        "storageType": {
+            "value": "Standard_LRS"
+        },
+
+        "virtualNetworkName": {
+            "value": "hubvnet"
+        },
+        "virtualNetworkAddressPrefix": {
+            "value": "10.0.0.0/16"
+        },
+        "mgmtSubnetName": {
+            "value": "hubMgmt"
+        },
+        "mgmtSubnetPrefix": {
+            "value": "10.0.0.0/24"
+        },
+        "untrustedSubnetName": {
+            "value": "Untrust"
+        },
+        "untrustedSubnetPrefix": {
+            "value": "10.0.1.0/24"
+        },
+        "trustedSubnetName": {
+            "value": "Trust"
+        },
+        "trustedSubnetPrefix": {
+            "value": "10.0.2.0/24"
+        },
+        "mgmtPublicIPName": {
+            "value": "mgmt-pip"
+        },
+        
+        "loadBalancerName": {
+            "value": "outbound-lb"
+        },
+        "loadBalancerIP": {
+            "value": "10.0.2.4"
+        },
+        "firewallModel": {
+            "value": "byol"
+        },
+        "firewallVmSize": {
+            "value": "Standard_D3_v2"
+        },
+        "authenticationType": {
+            "value": "password"
+        },
+        "username": {
+            "value": "pandemo"
+        },
+        "password": {
+            "value": "Dem0pa$$w0rd"
+        },
+        "sshPublicKey": {
+            "value": ""
+        },
+        "subscriptionId": {
+            "value": "93486f84-8de9-44f1-b4a8-f66aed312b64"
+        },
+        "appID": {
+            "value": "2a962c2f-2ca2-4553-b032-bb04ed94ddae"
+        },
+        "appSecret": {
+            "value": "SJGqlTPWt4GXN23MSAYtEcLtEPTVKEu4bI/QLOZe2Xk="
+        },
+        "TenantId":{
+            "value": "66b66353-3b76-4e41-9dc3-fee328bd400e"
+        },
+        "panoramaIP": {
+            "value": "35.170.246.215"
+        },
+        "panoramaApiKey": {
+            "value": "LUFRPT1Fd0FuVWlsN1lTalZ5TUNtODlCQ0RWUnUwTkU9YzdHeU9zZTUwUjBIRzZheXJZRldvY1FGTis4R01kK3kycjdDaXA3cysvbz0="
+        },
+        "licenseDeactivationKey": {
+            "value": "fbc07362e184f82a8a4cbe032912da939ac7a80ee1ca76c3fb9044533dc88bdd"
+        }
+    }
+}

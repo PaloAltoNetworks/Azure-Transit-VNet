@@ -1,0 +1,483 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"hubLoadBalancerSku": {
+			"type": "string",
+			"allowedValues": [
+				"Standard",
+				"Basic"
+			],
+			"metadata": {
+				"description": "Std LB load balances across all the ports where as Basic LB load balances on a port-to-port basis"
+			},
+			"defaultValue": "Standard"
+		},
+		"storageName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the storage account created to store the VM's disks.  Storage account name must be globally unique."
+			},
+			"defaultValue": "Enter a globally unique name"
+		},
+		"mgmtPublicIPDns": {
+			"type": "string",
+			"metadata": {
+				"description": "DNS Name prefix of public IP resource for Management interface of VM-Series firewall.  Name must be globally unique."
+			},
+			"defaultValue": "Enter a globally unique name"
+		},
+
+		"networkSecurityGroupName": {
+			"type": "string",
+			"defaultValue": "nsg",
+			"metadata": {
+				"description": "Network Security Group Name"
+			}
+		},
+		"networkSecurityGroupInboundIP": {
+			"type": "string",
+			"metadata": {
+				"description": "Your source public IP address. Added to the inbound NSG on eth0 (MGMT), to restrict access to the deployment."
+			},
+			"defaultValue": "1.1.1.1/32"
+		},
+		"avSetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the availability set for outbound firewall"
+			},
+			"defaultValue": "outbound-avset"
+		},
+
+		"storageType": {
+			"type": "string",
+			"allowedValues": [
+				"Standard_LRS",
+				"Standard_GRS",
+				"Premium_LRS",
+				"Standard_RAGRS"
+			],
+			"metadata": {
+				"description": "Type of the storage account created"
+			},
+			"defaultValue": "Standard_LRS"
+		},
+
+		"virtualNetworkName": {
+			"type": "string",
+			"defaultValue": "vnet",
+			"metadata": {
+				"description": "Virtual Network Name"
+			}
+		},
+		"virtualNetworkAddressPrefix": {
+			"type": "string",
+			"defaultValue": "10.0.0.0/16",
+			"metadata": {
+				"description": "CIDR for Virtual Network"
+			}
+		},
+		"mgmtSubnetName": {
+			"type": "string",
+			"defaultValue": "Mgmt",
+			"metadata": {
+				"description": "Subnet for Management Network"
+			}
+		},
+		"mgmtSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.0.0.0/24",
+			"metadata": {
+				"description": "CIDR for Management Network"
+			}
+		},
+		"untrustedSubnetName": {
+			"type": "string",
+			"defaultValue": "Untrust",
+			"metadata": {
+				"description": "Subnet for Untrusted Network"
+			}
+		},
+		"untrustedSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.0.1.0/24",
+			"metadata": {
+				"description": "CIDR for Untrusted Network"
+			}
+		},
+		"trustedSubnetName": {
+			"type": "string",
+			"defaultValue": "Trust",
+			"metadata": {
+				"description": "Subnet for Trusted Network"
+			}
+		},
+		"trustedSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "10.0.2.0/24",
+			"metadata": {
+				"description": "CIDR for Trusted Network"
+			}
+		},
+		"mgmtPublicIPName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name prefix of public IP resource for Management interface of VM-Series firewall."
+			},
+			"defaultValue": "mgmt-pip"
+		},
+		
+		"loadBalancerName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name for the outbound load balancer resource."
+			},
+			"defaultValue": "outbound-lb"
+		},
+		"loadBalancerIP": {
+			"type": "string",
+			"metadata": {
+				"description": "IP Address for the outbound load balancer resource in the Trust network."
+			},
+			"defaultValue": "10.0.2.4"
+		},
+		"firewallModel": {
+			"type": "string",
+			"defaultValue": "bundle1",
+			"allowedValues": [
+				"byol",
+				"bundle1",
+				"bundle2"
+			],
+			"metadata": {
+				"description": "byol = Bring Your Own License; bundle1 = Bundle 1 PAYG (Hourly); bundle2 = Bundle 2 PAYG (Hourly)"
+			}
+		},
+		"firewallVmName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name prefix of VM-Series VM in the Azure portal"
+			},
+			"defaultValue": "outbound-vm-series"
+		},
+		"firewallVmSize": {
+			"type": "string",
+			"allowedValues": [
+				"Standard_D3",
+				"Standard_D4",
+				"Standard_D3_v2",
+				"Standard_D4_v2",
+				"Standard_D5_v2",
+				"Standard_D14_v2",
+				"Standard_A4"
+			],
+			"metadata": {
+				"description": "Azure VM size for VM-Series"
+			},
+			"defaultValue": "Standard_D3_v2"
+		},
+		"authenticationType": {
+			"type": "string",
+			"metadata": {
+				"description": "Type of administrator user authentication "
+			},
+			"allowedValues": [
+				"sshPublicKey",
+				"password"
+			],
+			"defaultValue": "password"
+		},
+		"username": {
+			"type": "string",
+			"defaultValue": "pandemo",
+			"metadata": {
+				"description": "Username of the administrator account of VM instances"
+			}
+		},
+		"password": {
+			"type": "securestring",
+			"defaultValue": "Dem0pa$$w0rd",
+			"metadata": {
+				"description": "Password for the administrator account of all VM instances. This must be specified if Authentication Type is 'password'."
+			}
+		},
+		"sshPublicKey": {
+			"type": "string",
+			"defaultValue": "",
+			"metadata": {
+				"description": "SSH RSA public key file as a string. Must be specified if Authentication Type is 'sshPublicKey'."
+			}
+		},
+		"bootstrap": {
+			"type": "string",
+			"defaultValue" : "yes",
+			"allowedValues": [
+				"yes",
+				"no"
+			],
+			"metadata": {
+				"description": "Bootstrap disk yes or no"
+			}
+		},
+		"BootstrapStorageAccount": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "Storage account hosting the bootstrap files"
+				}
+		},
+		"StorageAccountAccessKey": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "Authentication key to access the storage account"
+				}
+		},
+		"StorageAccountFileShare": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "The file share in the storage account where the bootstrap files are located"
+				}
+		},
+		"StorageAccountFileShareDirectory": {
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+					"description": "The subdirectory hosting the bootstrap files. Only required if hosting multiple bootstrap directories on the same share"
+				}
+		}
+	},
+	
+	"variables": {
+		"baseUrl"              : "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/azure-pan-hub",
+		"deployStorageURL"     : "[concat(variables('baseUrl'),'/deployStorage.json')]",
+		"deployNsgURL"         : "[concat(variables('baseUrl'),'/deployNsg.json')]",
+		"deployVnetURL"        : "[concat(variables('baseUrl'),'/deployVnet.json')]",
+		"deployFirewallURL"    : "[concat(variables('baseUrl'),'/deployFirewall.json')]",
+		"deployLoadBalancerURL": "[concat(variables('baseUrl'),'/deployLoadBalancer.json')]",
+
+		"location"   : "[resourceGroup().location]",
+		"rgname"     : "[resourceGroup().name]",
+		"storageName": "[toLower(concat(parameters('storageName')))]",
+		"customDataField": "[concat('storage-account=', parameters('BootstrapStorageAccount'), ',access-key=', parameters('StorageAccountAccessKey'), ',file-share=', parameters('StorageAccountFileShare'),',share-directory=', parameters('StorageAccountFileShareDirectory'))]"	
+	},
+
+	"resources": [
+		{	
+			"name": "deployStorage",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployStorageURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[variables('location')]"
+					},
+					"storageType": {
+						"value": "[parameters('storageType')]"
+					},
+					"storageName": {
+						"value": "[variables('storageName')]"
+					}
+				}
+			}
+		},
+		{	
+			"name": "deployNsg",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployNsgURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"location": {
+						"value": "[variables('location')]"
+					},
+					"nsgName": {
+						"value": "[parameters('networkSecurityGroupName')]"
+					},
+					"srcIPInboundNSG": {
+						"value": "[parameters('networkSecurityGroupInboundIP')]"
+					},
+					"virtualNetworkAddressPrefix": {
+						"value": "[parameters('virtualNetworkAddressPrefix')]"
+					}
+				}
+			}
+		},
+		{	
+			"name": "deployVnet",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"Microsoft.Resources/deployments/deployNsg"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployVnetURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"nsgName": {
+						"value": "[parameters('networkSecurityGroupName')]"
+					},
+					"virtualNetworkName": {
+						"value": "[parameters('virtualNetworkName')]"
+					},
+					"virtualNetworkAddressPrefix": {
+						"value": "[parameters('virtualNetworkAddressPrefix')]"
+					},
+					"mgmtSubnetName": {
+						"value": "[parameters('MgmtSubnetName')]"
+					},
+					"untrustSubnetName": {
+						"value": "[parameters('untrustedSubnetName')]"
+					},
+					"trustSubnetName": {
+						"value": "[parameters('trustedSubnetName')]"
+					},
+					"mgmtSubnetPrefix": {
+						"value": "[parameters('mgmtSubnetPrefix')]"
+					},
+					"untrustSubnetPrefix": {
+						"value": "[parameters('untrustedSubnetPrefix')]"
+					},
+					"trustSubnetPrefix": {
+						"value": "[parameters('trustedSubnetPrefix')]"
+					}
+				}
+			}
+		},
+		{	
+			"name": "deployOutboundLoadBalancer",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"Microsoft.Resources/deployments/deployVNet"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployLoadBalancerURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"loadBalancerSku": {
+						"value": "[parameters('hubLoadBalancerSku')]"
+					},
+					"location": {
+						"value": "[variables('location')]"
+					},
+					"virtualNetworkRG": {
+						"value": "[variables('rgName')]"
+					},
+					"virtualNetworkName": {
+						"value": "[parameters('virtualNetworkName')]"
+					},
+					"subnetName": {
+						"value": "[parameters('trustedSubnetName')]"
+					},
+					"loadBalancerName": {
+						"value": "[parameters('loadBalancerName')]"
+					},
+                    "loadBalancerIP": {
+						"value": "[parameters('loadBalancerIP')]"
+					}
+				}
+			}
+		},
+		{	
+			"name": "deployOutboundFirewall",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"Microsoft.Resources/deployments/deployStorage",
+				"Microsoft.Resources/deployments/deployVNet",
+				"Microsoft.Resources/deployments/deployOutboundLoadBalancer"
+			],
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployFirewallURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"loadBalancerSku": {
+						"value": "[parameters('hubLoadBalancerSku')]"
+					},
+					"baseUrl": {
+						"value": "[variables('baseUrl')]"
+					},
+					"location": {
+						"value": "[variables('location')]"
+					},
+					"avSetName": {
+						"value": "[parameters('avSetName')]"
+					},
+					"storageName": {
+						"value": "[variables('storageName')]"
+					},
+					"virtualNetworkRG": {
+						"value": "[variables('rgName')]"
+					},
+					"virtualNetworkName": {
+						"value": "[parameters('virtualNetworkName')]"
+					},
+					"mgmtSubnetName": {
+						"value": "[parameters('mgmtSubnetName')]"
+					},
+					"inboundSubnetName": {
+						"value": "[parameters('trustedSubnetName')]"
+					},
+					"outboundSubnetName": {
+						"value": "[parameters('untrustedSubnetName')]"
+					},
+					"loadBalancerName": {
+						"value": "[parameters('loadBalancerName')]"
+					},
+					"mgmtPublicIPName": {
+						"value": "[concat('out', parameters('mgmtPublicIPName'))]"
+					},
+					"mgmtPublicIPDns":{
+						"value": "[concat('out', parameters('mgmtPublicIPDns'))]"
+					},
+					"virtualMachineName": {
+						"value": "[concat('out', parameters('firewallVmName'))]"
+					},
+					"vmSize": {
+						"value": "[parameters('firewallVmSize')]"
+					},
+					"imageSku" : {
+						"value": "[parameters('firewallModel')]"
+					},
+					"adminUsername": {
+						"value": "[parameters('username')]"
+					},
+					"adminPassword": {
+						"value": "[parameters('password')]"
+					},
+                    "customDataField": {
+                        "value": "[variables('customDataField')]"
+                    },
+					"bootstrap": {
+						"value": "[parameters('bootstrap')]"
+					},
+					"sshKey": {
+						"value": "[parameters('sshPublicKey')]"
+					}
+				}
+			}
+		}
+	],
+	"outputs": {}
+}

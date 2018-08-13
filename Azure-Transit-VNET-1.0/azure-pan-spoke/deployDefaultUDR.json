@@ -1,0 +1,40 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subnetPrefix": {
+            "type":"string",
+            "defaultValue": "0.0.0.0/0",
+            "metadata": {
+                "description": "Route to forward traffic to the outbound hub"
+            }
+        },
+        "nextHopIP": {
+            "type":"string",
+            "metadata": {
+                "description": "Next hop to forward the traffic"
+            }
+        }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]"
+    },
+    "resources": [
+        {
+			"name": "defaultBackendUDR",
+			"type": "Microsoft.Network/routeTables",
+			"apiVersion": "2015-06-15",
+			"location": "[variables('location')]",
+			"properties": {
+				"routes": [{
+					"name": "defaultRoute",
+					"properties": {
+						"addressPrefix": "[parameters('subnetPrefix')]",
+						"nextHopType": "VirtualAppliance",
+						"nextHopIpAddress": "[parameters('nextHopIP')]"
+					}
+				}]
+			}
+        }
+    ]
+}

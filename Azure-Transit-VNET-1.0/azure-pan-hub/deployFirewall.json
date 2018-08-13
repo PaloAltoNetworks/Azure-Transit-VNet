@@ -1,0 +1,533 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"loadBalancerSku": {
+			"type": "string",
+			"allowedValues": [
+				"Standard",
+				"Basic"
+			],
+			"metadata": {
+				"description": "Standard or Basic"
+			},
+			"defaultValue": "Standard"
+		},
+		"storageName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name prefix of the new storage account created to store the VM's disks"
+			}
+		},
+		"avSetName": {
+			"type": "string",
+			"defaultValue": "firewall-avset",
+			"metadata": {
+				"description": "Availability Set name"
+			}
+		},
+		"location": {
+			"type": "string",
+			"metadata": {
+				"description": "Deployment location"
+			}
+		},
+		"baseUrl": {
+			"type": "string",
+			"metadata": {
+				"description": "Deployment location"
+			}
+		},
+		
+		// vm parameters
+		"vmCount": {
+			"type": "int",
+			"defaultValue": 2,
+			"metadata": {
+				"description": "Number of VM-Series firewall"
+			}
+		},
+		"virtualMachineName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of VM-Series VM in the Azure portal"
+			},
+			"defaultValue": "vmSeries"
+		},
+		"vmSize": {
+			"type": "string",
+			"allowedValues": [
+				"Standard_D3",
+				"Standard_D4",
+				"Standard_D3_v2",
+				"Standard_D4_v2",
+				"Standard_D5_v2",
+				"Standard_D14_v2",
+				"Standard_A4"
+			],
+			"metadata": {
+				"description": "Azure VM size for VM-Series"
+			},
+			"defaultValue": "Standard_D3"
+		},
+		"imageSku": {
+			"type": "string",
+			"allowedValues": [
+				"byol",
+				"bundle1",
+				"bundle2"
+			],
+			"metadata": {
+				"description": "byol = Bring Your Own License; bundle1 = Bundle 1 PAYG (Hourly); bundle2 = Bundle 2 PAYG (Hourly)"
+			},
+			"defaultValue": "byol"
+		},
+		"bootstrap": {
+			"type": "string",
+			"allowedValues": [
+				"yes",
+				"no"
+			],
+			"metadata": {
+				"description": "Bootstrap disk yes or no"
+			}
+		},
+		"bootstrapUri": {
+			"type": "string",
+			"defaultValue": "",
+			"metadata": {
+				"description": "bootstrap disk storage account URI with container name"
+			}
+		},
+		"bootstrapUriSizeGB": {
+			"type": "string",
+			"defaultValue": "1",
+			"metadata": {
+				"description": "bootstrap disk disk in GB"
+			}
+		},
+		"authenticationType": {
+			"type": "string",
+			"metadata": {
+				"description": "Type of administrator user authentication "
+			},
+			"allowedValues": [
+				"sshPublicKey",
+				"password"
+			],
+			"defaultValue": "password"
+		},
+		"adminUsername": {
+			"type": "string",
+			"metadata": {
+				"description": "Username of the administrator account of VM-Series"
+			}
+		},
+		"adminPassword": {
+			"type": "securestring",
+			"defaultValue": "",
+			"metadata": {
+				"description": "Password for the administrator account of VM-Series"
+			}
+		},
+		"sshKey": {
+			"type": "string",
+			"defaultValue": "",
+			"metadata": {
+				"description": "SSH rsa public key file as a string."
+			}
+		},
+
+
+		// vnet parameters
+		"virtualNetworkRG": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the Virtual Network Resource Group"
+			}
+		},
+		"virtualNetworkName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the Virtual Network (VNET)"
+			}
+		},
+		"mgmtSubnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the Management subnet"
+			}
+		},
+		"outboundSubnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the Untrust subnet"
+			}
+		},
+		"inboundSubnetName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the Trust subnet"
+			}
+		},
+
+		// load balancer parameters
+		"loadBalancerName": {
+			"type": "string",
+			"metadata": {
+				"description": "Name of the inbound load balancer"
+			}
+		},	
+		// public IP parameters
+		"mgmtPublicIPDns": {
+			"type": "string",
+			"defaultValue": "panmgmt",
+			"metadata": {
+				"description": "DNS Name for mgmt interface"
+			}
+		},
+		"mgmtPublicIPName": {
+			"type": "string",
+			"defaultValue": "mgmt-pip",
+			"metadata": {
+				"description": "Name of public IP resource for mgmt interface"
+			}
+		},
+		// Bootstrap Parameters from deploy template
+        "customDataField": {
+            "type": "string",
+            "metadata": {
+                "description": "Credentials required by the firewall VM bootstrap code to access the storage"
+            }
+        }
+	},
+
+	"variables": {
+		"vnetId": "[resourceId(parameters('virtualNetworkRG'), 'Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+		"lbId": "[resourceId('Microsoft.Network/loadBalancers/', parameters('loadBalancerName'))]",
+		
+		"deployVmURL" : "[concat(parameters('baseUrl'),'/deployVm-', parameters('authenticationType'), '-bs-', parameters('bootstrap'),'.json')]",
+		"imagePublisher": "paloaltonetworks",
+		"imageOffer": "vmseries1",
+		"version": "latest"
+	},
+
+	"resources": [
+		// availabilitySets
+		{ 
+			"condition": "[equals(parameters('loadBalancerSku'), 'Basic')]", 
+			"apiVersion": "2015-05-01-preview",
+			"type": "Microsoft.Compute/availabilitySets",
+			"name": "[parameters('avSetName')]",
+			"location": "[parameters('location')]"
+		},
+
+		// Setup Mgmt PublicIPs[x]
+		{ 
+			"apiVersion": "2017-08-01",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[concat(parameters('mgmtPublicIPName'), copyindex())]",
+			"sku": {
+				"name": "[parameters('loadBalancerSku')]"
+			},
+			"location": "[parameters('location')]",
+			"copy": {
+				"name": "pipLoop",
+				"count": "[parameters('vmCount')]"
+			},
+			"properties": {
+				"publicIPAllocationMethod": "[if(equals(parameters('loadBalancerSku'), 'Standard'), 'Static', 'Dynamic')]",
+				"dnsSettings": {
+					"domainNameLabel":  "[concat(parameters('mgmtPublicIPDns'), copyindex())]"
+				}
+			}
+		},
+
+		// Setup Mgmt Network Interface
+		{
+			"name": "[concat(parameters('virtualMachineName'), copyindex(), '-nic0')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"location": "[parameters('location')]",
+			"apiVersion": "2015-06-15",
+			"dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('mgmtPublicIPName'), copyindex())]"
+			],
+			"copy": {
+				"name": "nicLoop",
+				"count": "[parameters('vmCount')]"
+			},			
+			"properties": {
+				"ipConfigurations": [
+					{
+						"name": "ipconfig-mgmt",
+						"properties": {
+							"privateIPAllocationMethod": "Dynamic",
+							"publicIPAddress": {
+								"id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('mgmtPublicIPName'), copyindex()))]"
+							},
+							"subnet": {
+								"id": "[concat(variables('vnetId'),'/subnets/', parameters ('mgmtSubnetName'))]"
+							}
+						}
+					}
+				]
+			}
+		},
+		// Setup Untrust PublicIPs[x]
+		{
+			"condition": "[equals(parameters('loadBalancerSku'), 'Standard')]", 
+			"apiVersion": "2017-08-01",
+			"type": "Microsoft.Network/publicIPAddresses",
+			"name": "[concat(parameters('outboundSubnetName'), '-pip-', copyindex())]",
+			"sku": {
+				"name": "[parameters('loadBalancerSku')]"
+			},
+			"location": "[parameters('location')]",
+			"copy": {
+				"name": "pipLoop",
+				"count": "[parameters('vmCount')]"
+			},
+			"properties": {
+				"publicIPAllocationMethod": "[if(equals(parameters('loadBalancerSku'), 'Standard'), 'Static', 'Dynamic')]"
+			}
+		},
+
+		// Setup Untrusted (external) Network Interface for Std LB
+		{
+			"condition": "[equals(parameters('loadBalancerSku'), 'Standard')]", 
+			"name": "[concat(parameters('virtualMachineName'), copyindex(), '-nic1-std')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('outboundSubnetName'), '-pip-', copyindex())]"
+			],
+			"location": "[parameters('location')]",
+			"apiVersion": "2015-06-15",
+			"copy": {
+				"name": "nicLoop",
+				"count": "[parameters('vmCount')]"
+			},			
+			"properties": {
+				"enableIPForwarding": true,
+				"ipConfigurations": [
+					{
+						"name": "ipconfig-untrust",
+						"properties": {
+							"privateIPAllocationMethod": "Dynamic",
+							"publicIPAddress": {
+								"id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(parameters('outboundSubnetName'), '-pip-', copyindex()))]"
+							},
+							"subnet": {
+								"id": "[concat(variables('vnetId'),'/subnets/', parameters ('outboundSubnetName'))]"
+							}
+						}
+					}
+				]
+			}
+		},
+
+		// Setup Untrusted (external) Network Interface for Basic LB
+		{
+			"condition": "[equals(parameters('loadBalancerSku'), 'Basic')]", 
+			"name": "[concat(parameters('virtualMachineName'), copyindex(), '-nic1-basic')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"location": "[parameters('location')]",
+			"apiVersion": "2015-06-15",
+			"copy": {
+				"name": "nicLoop",
+				"count": "[parameters('vmCount')]"
+			},			
+			"properties": {
+				"enableIPForwarding": true,
+				"ipConfigurations": [
+					{
+						"name": "ipconfig-untrust",
+						"properties": {
+							"privateIPAllocationMethod": "Dynamic",
+							"subnet": {
+								"id": "[concat(variables('vnetId'),'/subnets/', parameters ('outboundSubnetName'))]"
+							}
+						}
+					}
+				]
+			}
+		},
+
+		// Setup Trusted (internal) Network Interface
+		{
+			"name": "[concat(parameters('virtualMachineName'), copyindex(), '-nic2')]",
+			"type": "Microsoft.Network/networkInterfaces",
+			"location": "[parameters('location')]",
+			"apiVersion": "2015-06-15",
+			"copy": {
+				"name": "nicLoop",
+				"count": "[parameters('vmCount')]"
+			},			
+			"properties": {
+				"enableIPForwarding": true,
+				"ipConfigurations": [
+					{
+						"name": "ipconfig-trust",
+						"properties": {
+							"privateIPAllocationMethod": "Dynamic",
+							"subnet": {
+								"id": "[concat(variables('vnetId'),'/subnets/', parameters ('inboundSubnetName'))]"
+							},
+							"loadBalancerBackendAddressPools": [
+								{
+									"id": "[concat(variables('lbId'), '/backendAddressPools/BackendPool')]"
+								}
+							]
+						}
+					}
+				]
+			}
+		},
+
+		// VMSeries-Firewall-VM with Basic Load Balancer
+		{
+			"condition": "[equals(parameters('loadBalancerSku'), 'Basic')]", 
+			"name": "[concat(parameters('virtualMachineName'), '-basic-', copyindex())]",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"[concat('Microsoft.Compute/availabilitySets/', parameters('avSetName'))]",
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('mgmtPublicIPName'), copyindex())]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic0')]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic1-basic')]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic2')]"
+			],
+			"copy": {
+				"name": "vmLoop",
+				"count": "[parameters('vmCount')]"
+			},
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployVmURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"loadBalancerSku": {
+						"value": "[parameters('loadBalancerSku')]"
+					},
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"avSetName": {
+						"value": "[parameters('avSetName')]"
+					},
+					"virtualMachineName": {
+						"value": "[concat(parameters('virtualMachineName'), copyindex())]"
+					},
+					"imageSku": {
+						"value": "[parameters('imageSku')]"
+					},
+					"imageOffer": {
+						"value": "[variables('imageOffer')]"
+					},
+					"imagePublisher": {
+						"value": "[variables('imagePublisher')]"
+					},
+					"nicName": {
+						"value": "[concat(parameters('virtualMachineName'), copyindex())]"
+					},
+					"vmSize": {
+						"value": "[parameters('vmSize')]"
+					},
+					"adminUsername": {
+						"value": "[parameters('adminUsername')]"
+					},
+					"adminPassword": {
+						"value": "[parameters('adminPassword')]"
+					},
+					"storageName": {
+						"value": "[parameters('storageName')]"
+					},
+					"sshKey": {
+						"value": "[parameters('sshKey')]"
+					},
+                    "customDataField": {
+                        "value": "[parameters('customDataField')]"
+                    },
+					"bootstrapUri": {
+						"value": "[parameters('BootstrapUri')]"
+					},
+					"bootstrapUriSizeGB": {
+						"value": "[parameters('BootstrapUriSizeGB')]"
+					}
+				}
+			}
+		},
+		// VMSeries-Firewall-VM with Standard Load Balancer
+		{
+			"condition": "[equals(parameters('loadBalancerSku'), 'Standard')]", 
+			"name": "[concat(parameters('virtualMachineName'), '-std-', copyindex())]",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2015-01-01",
+			"dependsOn": [
+				"[concat('Microsoft.Network/publicIPAddresses/', parameters('mgmtPublicIPName'), copyindex())]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic0')]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic1-std')]",
+				"[concat('Microsoft.Network/networkInterfaces/', parameters('virtualMachineName'), copyindex(), '-nic2')]"
+			],
+			"copy": {
+				"name": "vmLoop",
+				"count": "[parameters('vmCount')]"
+			},
+			"properties": {
+				"mode": "Incremental",
+				"templateLink": {
+					"uri": "[variables('deployVmURL')]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"loadBalancerSku": {
+						"value": "[parameters('loadBalancerSku')]"
+					},
+					"location": {
+						"value": "[parameters('location')]"
+					},
+					"virtualMachineName": {
+						"value": "[concat(parameters('virtualMachineName'), copyindex())]"
+					},
+					"imageSku": {
+						"value": "[parameters('imageSku')]"
+					},
+					"imageOffer": {
+						"value": "[variables('imageOffer')]"
+					},
+					"imagePublisher": {
+						"value": "[variables('imagePublisher')]"
+					},
+					"nicName": {
+						"value": "[concat(parameters('virtualMachineName'), copyindex())]"
+					},
+					"vmSize": {
+						"value": "[parameters('vmSize')]"
+					},
+					"adminUsername": {
+						"value": "[parameters('adminUsername')]"
+					},
+					"adminPassword": {
+						"value": "[parameters('adminPassword')]"
+					},
+					"storageName": {
+						"value": "[parameters('storageName')]"
+					},
+					"sshKey": {
+						"value": "[parameters('sshKey')]"
+					},
+                    "customDataField": {
+                        "value": "[parameters('customDataField')]"
+                    },
+					"bootstrapUri": {
+						"value": "[parameters('BootstrapUri')]"
+					},
+					"bootstrapUriSizeGB": {
+						"value": "[parameters('BootstrapUriSizeGB')]"
+					}
+				}
+			}
+		}
+	]
+}

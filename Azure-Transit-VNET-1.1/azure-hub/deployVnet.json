@@ -1,0 +1,123 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"nsgName": {
+			"type": "string",
+			"defaultValue": "nsg-default1"
+		},
+		"virtualNetworkName": {
+			"type": "string",
+			"defaultValue": "vnet",
+			"metadata": {
+				"description": "VNET name"
+			}
+		},
+		"virtualNetworkAddressPrefix": {
+			"type": "string",
+			"defaultValue": "192.168.0.0/16",
+			"metadata": {
+				"description": "CIDR for vnet"
+			}
+		},
+		"mgmtSubnetName": {
+			"type": "string",
+			"defaultValue": "Mgmt",
+			"metadata": {
+				"description": "Subnet for Management"
+			}
+		},
+		"untrustSubnetName": {
+			"type": "string",
+			"defaultValue": "Untrust",
+			"metadata": {
+				"description": "Subnet for Untrust"
+			}
+		},
+		"trustSubnetName": {
+			"type": "string",
+			"defaultValue": "Trust",
+			"metadata": {
+				"description": "Subnet for Trust"
+			}
+		},
+		"mgmtSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "192.168.0.0/24",
+			"metadata": {
+				"description": "Mgmt subnet CIDR"
+			}
+		},
+		"untrustSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "192.168.1.0/24",
+			"metadata": {
+				"description": "Untrust subnet CIDR"
+			}
+		},
+		"trustSubnetPrefix": {
+			"type": "string",
+			"defaultValue": "192.168.2.0/24",
+			"metadata": {
+				"description": "Trust subnet CIDR"
+			}
+		}
+	},
+	"variables": {
+		"location"         : "[resourceGroup().location]",
+		"rgname"           : "[resourceGroup().id]",
+		"vnetname"         : "[parameters('virtualNetworkName')]",
+		"vnetID"           : "[resourceId('Microsoft.Network/virtualNetworks',variables('vnetname'))]",
+		"mgmtSubnetRef"    : "[concat(variables('vnetID'),'/subnets/',parameters('mgmtSubnetName'))]",
+		"untrustSubnetRef" : "[concat(variables('vnetID'),'/subnets/',parameters('untrustSubnetName'))]",
+		"trustSubnetRef"   : "[concat(variables('vnetID'),'/subnets/',parameters('trustSubnetName'))]",
+		"subnets": [
+			{
+				"name": "[parameters('mgmtSubnetName')]",
+				"properties": {
+					"addressPrefix": "[parameters('mgmtSubnetPrefix')]",
+					"networkSecurityGroup": {
+						"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('nsgName'), '-mgmt'))]"
+					}
+				}
+			},
+			{
+				"name": "[parameters('untrustSubnetName')]",
+				"properties": {
+					"addressPrefix": "[parameters('untrustSubnetPrefix')]"
+				}
+			},
+			{
+				"name": "[parameters('trustSubnetName')]",
+				"properties": {
+					"addressPrefix": "[parameters('trustSubnetPrefix')]",
+					"networkSecurityGroup": {
+						"id": "[resourceId('Microsoft.Network/networkSecurityGroups', concat(parameters('nsgName'), '-trust'))]"
+					}
+				}
+			}
+		]
+	},
+	"resources": [
+		{
+			"name": "[variables('vnetname')]",
+			"type": "Microsoft.Network/virtualNetworks",
+			"location": "[variables('location')]",
+			"apiVersion": "2015-06-15",
+			"properties": {
+				"addressSpace": {
+					"addressPrefixes": [
+						"[parameters('virtualNetworkAddressPrefix')]"
+					]
+				},
+				"subnets": "[variables('subnets')]"
+			}
+		}
+	],
+	"outputs": {
+		"vnetName": {
+			"value": "[variables('vnetname')]",
+			"type": "string"
+		}
+	}
+}

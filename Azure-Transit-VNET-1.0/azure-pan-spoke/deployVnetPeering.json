@@ -1,0 +1,82 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vNet1Name": {
+            "type":"string",
+            "defaultValue": "spoke-vnet",
+            "metadata": {
+                "description": "Name for the Vnet in the spoke"
+            }
+        },
+        "vNet2Name": {
+            "type": "string",
+            "defaultValue": "hub-vnet",
+            "metadata": {
+                "description": "Name for Vnet in the Hub"
+            }
+        },
+        "vNet2ResourceGroupName": {
+            "type": "string",
+            "defaultValue": "hub-resource-group-name",
+            "metadata": {
+                "description": "Resource Group for the Hub"
+            }
+        }
+
+    },
+    "variables": {
+        "vNet1ResourceGroupName": "[resourceGroup().name]",
+        "vNet2ResourceGroupName":  "[parameters('vNet2ResourceGroupName')]",
+        "vNet1tovNet2PeeringName": "[concat(parameters('vNet1Name'), '-', parameters('vNet2Name'), 'vnet-peering')]",
+        "vNet2tovNet1PeeringName": "[concat(parameters('vNet2Name'), '-', parameters('vNet1Name'), 'vnet-peering')]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2017-05-10",
+            "name": "NestedTemplateForVnetPeering",
+            "type": "Microsoft.Resources/deployments",
+            "resourceGroup": "[variables('vNet2ResourceGroupName')]",
+            "properties": {
+                "mode": "Incremental",
+                "template": {
+                    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "variables": {},
+                    "resources": [
+                        {
+                            "name": "[concat(parameters('vNet2Name'), '/', variables('vNet2tovNet1PeeringName'))]",
+                            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+                            "apiVersion": "2017-03-01",
+                            "properties": {
+                                "allowVirtualNetworkAccess": "true",
+                                "allowForwardedTraffic": "true",
+                                "allowGatewayTransit": "true",
+                                "useRemoteGateways": "false",
+                                "remoteVirtualNetwork": {
+                                    "id": "[resourceId(variables('vNet1ResourceGroupName'), 'Microsoft.Network/virtualNetworks', parameters('vNet1Name'))]"                    
+                                }
+                            }                                                    
+                        }
+                    ]
+                },
+                "parameters": {}
+            }
+        },
+        {
+            "name": "[concat(parameters('vNet1Name'), '/', variables('vNet1tovNet2PeeringName'))]",
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2017-03-01",
+            "properties": {
+                "allowVirtualNetworkAccess": "true",
+                "allowForwardedTraffic": "true",
+                "allowGatewayTransit": "true",
+                "useRemoteGateways": "false",
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId(variables('vNet2ResourceGroupName'), 'Microsoft.Network/virtualNetworks', parameters('vNet2Name'))]"                    
+                }
+            }
+        }
+    ]
+}
