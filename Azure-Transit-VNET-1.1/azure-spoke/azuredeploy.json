@@ -257,7 +257,7 @@
         "internalLoadBalancerName" : "myPrivateLB",
         "LoadBalancerType" : "layer-7",
         "firewallVmCount" : 2,
-        "baseUrl" : "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet-0.1/master/azure-spoke",
+        "baseUrl" : "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/Azure-Transit-VNET-1.1/azure-spoke",
         "nsgURL" : "[concat(variables('baseUrl'),'/nsg-new.json')]",
         "vnetURL" : "[concat(variables('baseUrl'),'/deployVnet.json')]",
         "publicLBURL" : "[concat(variables('baseUrl'),'/public-lb-', variables('LoadBalancerType'), '.json')]",
@@ -510,8 +510,8 @@
                 "typeHandlerVersion": "2.0",
                 "settings": {
                     "fileUris": [
-                        "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet-0.1/master/azure-spoke/publish.py",
-                        "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet-0.1/master/azure-spoke/start.sh"
+                        "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/Azure-Transit-VNET-1.1/azure-spoke/publish.py",
+                        "https://raw.githubusercontent.com/PaloAltoNetworks/Azure-Transit-VNet/master/Azure-Transit-VNET-1.1/azure-spoke/start.sh"
                     ],
                     "commandToExecute": "[concat('/bin/bash ./start.sh ', variables('space'), reference('SetupAppInsights').outputs.instrumentationKey.value, variables('space'), '&')]"
                 }
