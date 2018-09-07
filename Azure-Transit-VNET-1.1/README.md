@@ -6,6 +6,7 @@
 
 - Now supports bootstrapping in both Hub and Spoke 
 - Now supports auto scaling with Azure Virtual Machine Scale Sets in the Spoke
+- Does NOT support autoscaling in the Transit HUB at this time
 
 
 
@@ -19,11 +20,13 @@ This topology consists of
 -	2 VM-Series Firewalls
 -	1 Standard internal Load Balancer
 -	Linux Worker Node
-	-	Worker node uses the Tabular storage table to keep track of the Azure VMSS table and Panorama device list. During a scale down 	event the worker node will deactivate the license in the Support Portal and remove the firewall from Panorama. 
+	-	Worker node uses the Tabular storage table to keep track of the Azure VMSS table located in the spoke and Panorama device list. During a scale down event the worker node will deactivate the license in the Support Portal and remove the firewall from Panorama. 
 	-	The worker node updates the NAT address object in the Spoke VM-series with the correct IP address of the spoke ILB. 
 	-	The worker node will add the Azure instrumentation key for application insights into the Panorama template for reach new spoke deployment. 
 -	1 Tabular Storage Table
 	-	Stores VMSS device list data
+
+
 
 
 [<img src="http://azuredeploy.net/deploybutton.png"/>](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FPaloAltoNetworks%2FAzure-Transit-VNet%2Fmaster%2FAzure-Transit-VNET-1.1%2Fazure-hub%2FazureDeployInfra.json?token=AZoiWUdo2qPkcTjMXpY8_KOkrP2aBqp_ks5ahJwcwA%3D%3D)
